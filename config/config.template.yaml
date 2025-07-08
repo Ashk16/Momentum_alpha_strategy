@@ -1,0 +1,133 @@
+# Momentum Alpha Configuration Template
+# Copy this file to config.yaml and update with your actual values
+
+# Application settings
+app:
+  name: "Momentum Alpha"
+  version: "1.0.0"
+  environment: "development"  # development, staging, production
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_rotation: true
+  max_file_size: "10MB"
+  backup_count: 5
+
+# Database configuration
+database:
+  type: "postgresql"  # postgresql, sqlite
+  host: "localhost"
+  port: 5432
+  name: "momentum_alpha"
+  username: "your_db_username"
+  password: "your_db_password"
+  # For SQLite (alternative)
+  # sqlite_path: "data/momentum_alpha.db"
+
+# BSE Scraper configuration
+scraper:
+  base_url: "https://www.bseindia.com/corporates/ann.html"
+  poll_interval: 15  # seconds
+  timeout: 30  # seconds
+  user_agent: "MomentumAlpha/1.0 (Educational Trading Bot)"
+  respect_robots_txt: true
+  max_retries: 3
+  backoff_factor: 1.0
+
+# NLP Engine configuration
+nlp:
+  model: "en_core_web_sm"  # spaCy model
+  keywords:
+    primary: ["Award of Order", "Receives Order", "Secures Contract", "Order received"]
+    secondary: ["Contract", "Agreement", "Supply", "Purchase Order"]
+  min_order_value: 10000000  # Minimum order value in rupees (1 crore)
+  confidence_threshold: 0.8
+
+# Strategy Engine configuration
+strategy:
+  lookback_days: 30  # Days to look back for historical analysis
+  min_historical_data_points: 10
+  target_multiplier: 0.9  # Set target at 90% of historical average peak
+  volatility_multiplier: 2.0  # Stop loss based on 2x ATR
+  max_holding_period: 5  # Maximum days to hold position
+
+# Risk Management configuration
+risk_management:
+  max_position_size: 50000  # Maximum position size in rupees
+  max_daily_trades: 5
+  max_weekly_trades: 20
+  risk_per_trade: 0.02  # 2% risk per trade
+  max_portfolio_risk: 0.10  # 10% maximum portfolio risk
+  circuit_breaker_threshold: 0.05  # 5% daily loss limit
+  vix_threshold: 25  # Halt trading if India VIX above this level
+
+# Broker API configuration
+broker:
+  name: "zerodha"  # zerodha, fyers, alice_blue
+  api_key: "your_api_key"
+  api_secret: "your_api_secret"
+  access_token: "your_access_token"
+  # Zerodha specific
+  request_token: "your_request_token"
+  # Paper trading settings
+  paper_trading:
+    initial_balance: 100000
+    commission_per_trade: 20
+
+# Trading parameters
+trading:
+  order_type: "MARKET"  # MARKET, LIMIT
+  exchange: "BSE"
+  product_type: "MIS"  # MIS (intraday), CNC (delivery)
+  validity: "DAY"
+  
+# Notifications configuration
+notifications:
+  email:
+    enabled: false
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    username: "your_email@gmail.com"
+    password: "your_app_password"
+    recipients: ["trader@example.com"]
+  
+  telegram:
+    enabled: false
+    bot_token: "your_telegram_bot_token"
+    chat_id: "your_chat_id"
+  
+  webhook:
+    enabled: false
+    url: "https://your-webhook-url.com/alerts"
+
+# Backtesting configuration
+backtesting:
+  start_date: "2023-01-01"
+  end_date: "2023-12-31"
+  initial_capital: 100000
+  commission_per_trade: 20
+  slippage: 0.001  # 0.1% slippage
+
+# Data sources
+data_sources:
+  price_data: "yahoo"  # yahoo, alpha_vantage, quandl
+  yahoo_finance:
+    timeout: 30
+  alpha_vantage:
+    api_key: "your_alpha_vantage_key"
+
+# Security settings
+security:
+  encrypt_config: false
+  api_rate_limits:
+    requests_per_minute: 60
+    burst_limit: 10
+
+# Development settings
+development:
+  debug_mode: true
+  mock_trades: true
+  save_announcements: true
+  log_level: "DEBUG" 
